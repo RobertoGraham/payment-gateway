@@ -5,6 +5,7 @@ import com.checkout.payment.gateway.model.PostPaymentRequest;
 import com.checkout.payment.gateway.model.PostPaymentResponse;
 import com.checkout.payment.gateway.repository.PaymentsRepository;
 import java.util.UUID;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,8 @@ public class PaymentGatewayService {
     return paymentsRepository.get(id).orElseThrow(() -> new EventProcessingException("Invalid ID"));
   }
 
-  public UUID processPayment(PostPaymentRequest paymentRequest) {
-    return UUID.randomUUID();
+  public PostPaymentResponse processPayment(@Valid PostPaymentRequest paymentRequest) throws Exception {
+    LOG.debug("Processing payment request {} {}", paymentRequest.getAmount(), paymentRequest.getCurrency());
+    return paymentsRepository.processPayment(paymentRequest);
   }
 }
