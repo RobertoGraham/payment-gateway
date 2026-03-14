@@ -85,4 +85,14 @@ final class PaymentCardTests {
         .build())
         .isNotNull();
   }
+
+  @Test
+  void toStringDoesNotLeakSensitiveData() {
+    assertThat(PaymentCard.builder()
+        .number("01234567898765")
+        .expiry(YearMonth.now().plusMonths(1L))
+        .securityCode("123")
+        .build())
+        .hasToString("PaymentCard{expiry=%s}".formatted(YearMonth.now().plusMonths(1L)));
+  }
 }

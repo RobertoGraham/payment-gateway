@@ -21,4 +21,9 @@ public record PaymentCard(@NonNull String number, @NonNull YearMonth expiry,
           "securityCode must only contain numeric characters and be between 3-4 characters");
     }
   }
+
+  @Override
+  public String toString() {
+    return "PaymentCard{expiry=%s}".formatted(expiry);
+  }
 }
