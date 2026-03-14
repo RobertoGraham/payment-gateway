@@ -1,0 +1,49 @@
+name: Build Payment Gateway
+
+on:
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+    paths:
+      - build-payment-gateway.yaml
+      - gradle
+      - src
+      - build.gradle
+      - gradlew
+      - settings.gradle
+  push:
+    branches: [ main ]
+    paths:
+      - build-payment-gateway.yaml
+      - gradle
+      - src
+      - build.gradle
+      - gradlew
+      - settings.gradle
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Payment Gateway
+        uses: actions/checkout@v6.0.2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5.2.0
+        with:
+          distribution: corretto
+          java-version: 17
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v5.0.2
+
+      - name: Build Payment Gateway
+        shell: bash
+        run: ./gradlew build
