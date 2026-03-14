@@ -1,1 +1,3 @@
-rootProject.name = "payment-gateway-challenge-java"
+rootProject.name = "payment-gateway"
+
+include("payment-gateway-application")
