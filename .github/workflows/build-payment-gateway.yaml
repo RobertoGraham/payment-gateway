@@ -7,18 +7,18 @@ on:
       - .github/workflows/build-payment-gateway.yaml
       - gradle/**
       - src/**
-      - build.gradle
+      - build.gradle.kts
       - gradlew
-      - settings.gradle
+      - settings.gradle.kts
   push:
     branches: [ main ]
     paths:
       - .github/workflows/build-payment-gateway.yaml
       - gradle/**
       - src/**
-      - build.gradle
+      - build.gradle.kts
       - gradlew
-      - settings.gradle
+      - settings.gradle.kts
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
