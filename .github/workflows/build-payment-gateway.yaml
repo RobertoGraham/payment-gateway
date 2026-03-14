@@ -6,8 +6,7 @@ on:
     paths:
       - .github/workflows/build-payment-gateway.yaml
       - gradle/**
-      - src/**
-      - build.gradle.kts
+      - payment-gateway-application/**
       - gradlew
       - settings.gradle.kts
   push:
@@ -15,8 +14,7 @@ on:
     paths:
       - .github/workflows/build-payment-gateway.yaml
       - gradle/**
-      - src/**
-      - build.gradle.kts
+      - payment-gateway-application/**
       - gradlew
       - settings.gradle.kts
 
