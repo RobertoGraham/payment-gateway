@@ -4,18 +4,18 @@ on:
   pull_request:
     types: [ opened, synchronize, reopened ]
     paths:
-      - build-payment-gateway.yaml
-      - gradle
-      - src
+      - .github/workflows/build-payment-gateway.yaml
+      - gradle/**
+      - src/**
       - build.gradle
       - gradlew
       - settings.gradle
   push:
     branches: [ main ]
     paths:
-      - build-payment-gateway.yaml
-      - gradle
-      - src
+      - .github/workflows/build-payment-gateway.yaml
+      - gradle/**
+      - src/**
       - build.gradle
       - gradlew
       - settings.gradle
