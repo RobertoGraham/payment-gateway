@@ -5,10 +5,10 @@ import lombok.Builder;
 import lombok.NonNull;
 
 @Builder
-public record PaymentCard(@NonNull String number, @NonNull YearMonth expiry,
-                          @NonNull String securityCode) {
+public record UnmaskedCard(@NonNull String number, @NonNull YearMonth expiry,
+                           @NonNull String securityCode) {
 
-  public PaymentCard {
+  public UnmaskedCard {
     if (!number.matches("^\\d{14,19}$")) {
       throw new IllegalArgumentException(
           "number must only contain numeric characters and be between 14-19 characters");
