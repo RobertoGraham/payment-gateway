@@ -6,6 +6,7 @@ on:
     paths:
       - .github/workflows/build-payment-gateway.yaml
       - gradle/**
+      - buildSrc/**
       - payment-gateway-application/**
       - payment-gateway-domain/**
       - payment-gateway-adapter-acquiring-bank/**
@@ -16,6 +17,7 @@ on:
     paths:
       - .github/workflows/build-payment-gateway.yaml
       - gradle/**
+      - buildSrc/**
       - payment-gateway-application/**
       - payment-gateway-domain/**
       - payment-gateway-adapter-acquiring-bank/**
