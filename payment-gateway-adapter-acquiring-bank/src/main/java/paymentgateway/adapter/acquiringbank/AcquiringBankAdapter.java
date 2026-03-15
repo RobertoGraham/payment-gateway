@@ -1,4 +1,4 @@
-package payment.gateway.adapter.acquiringbank;
+package paymentgateway.adapter.acquiringbank;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;

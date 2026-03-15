@@ -1,4 +1,4 @@
-package payment.gateway.adapter.acquiringbank;
+package paymentgateway.adapter.acquiringbank;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

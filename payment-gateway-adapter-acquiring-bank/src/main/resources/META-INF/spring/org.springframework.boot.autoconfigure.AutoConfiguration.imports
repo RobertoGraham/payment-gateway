@@ -1,1 +1,1 @@
-payment.gateway.adapter.acquiringbank.AcquiringBankPortAutoConfiguration
+paymentgateway.adapter.acquiringbank.AcquiringBankPortAutoConfiguration
