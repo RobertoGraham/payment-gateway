@@ -12,8 +12,5 @@ public record MaskedCard(@NonNull String last4Digits, @NonNull YearMonth expiry)
       throw new IllegalArgumentException(
           "last4Digits must only contain numeric characters and be 4 characters");
     }
-    if (!expiry.isAfter(YearMonth.now())) {
-      throw new IllegalArgumentException("expiry must be in the future");
-    }
   }
 }

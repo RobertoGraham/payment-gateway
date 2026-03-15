@@ -40,20 +40,10 @@ final class MaskedCardTests {
   }
 
   @Test
-  void expiryMustBeInTheFuture() {
-    assertThatThrownBy(() -> MaskedCard.builder()
-        .last4Digits("0123")
-        .expiry(YearMonth.parse("1996-12"))
-        .build())
-        .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("expiry must be in the future");
-  }
-
-  @Test
   void valid() {
     assertThat(MaskedCard.builder()
         .last4Digits("0123")
-        .expiry(YearMonth.now().plusMonths(1L))
+        .expiry(YearMonth.parse("1996-12"))
         .build())
         .isNotNull();
   }
