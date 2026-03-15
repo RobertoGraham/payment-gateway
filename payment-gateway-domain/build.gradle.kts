@@ -16,6 +16,9 @@ testing {
   suites {
     withType<JvmTestSuite> {
       useJUnitJupiter()
+      dependencies {
+        runtimeOnly("org.junit.platform:junit-platform-launcher")
+      }
     }
   }
 }
