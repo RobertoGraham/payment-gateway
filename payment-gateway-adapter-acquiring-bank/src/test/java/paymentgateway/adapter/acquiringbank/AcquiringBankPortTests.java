@@ -1,4 +1,4 @@
-package payment.gateway.adapter.acquiringbank;
+package paymentgateway.adapter.acquiringbank;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,7 +22,7 @@ import org.testcontainers.containers.ComposeContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import paymentgateway.domain.model.MonetaryAmount;
-import paymentgateway.domain.model.PaymentCard;
+import paymentgateway.domain.model.UnmaskedCard;
 import paymentgateway.domain.port.out.AcquiringBankPort;
 import paymentgateway.domain.port.out.BankAuthorizationResult.Authorized;
 import paymentgateway.domain.port.out.BankAuthorizationResult.Declined;
@@ -64,7 +64,7 @@ final class AcquiringBankPortTests {
 
   @Test
   void authorized() {
-    assertThat(subject.authorize(PaymentCard.builder()
+    assertThat(subject.authorize(UnmaskedCard.builder()
         .number("2222405343248871")
         .expiry(YearMonth.now().plusMonths(1L))
         .securityCode("123")
@@ -77,7 +77,7 @@ final class AcquiringBankPortTests {
 
   @Test
   void declined() {
-    assertThat(subject.authorize(PaymentCard.builder()
+    assertThat(subject.authorize(UnmaskedCard.builder()
         .number("2222405343248872")
         .expiry(YearMonth.now().plusMonths(1L))
         .securityCode("123")
@@ -90,7 +90,7 @@ final class AcquiringBankPortTests {
 
   @Test
   void failed() {
-    assertThat(subject.authorize(PaymentCard.builder()
+    assertThat(subject.authorize(UnmaskedCard.builder()
         .number("2222405343248870")
         .expiry(YearMonth.now().plusMonths(1L))
         .securityCode("123")

@@ -1,9 +1,9 @@
 package paymentgateway.domain.port.out;
 
 import paymentgateway.domain.model.MonetaryAmount;
-import paymentgateway.domain.model.PaymentCard;
+import paymentgateway.domain.model.UnmaskedCard;
 
 public interface AcquiringBankPort {
 
-  BankAuthorizationResult authorize(PaymentCard paymentCard, MonetaryAmount amount);
+  BankAuthorizationResult authorize(UnmaskedCard unmaskedCard, MonetaryAmount amount);
 }

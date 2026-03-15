@@ -8,11 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-final class PaymentCardTests {
+final class UnmaskedCardTests {
 
   @Test
   void numberIsRequired() {
-    assertThatThrownBy(() -> PaymentCard.builder()
+    assertThatThrownBy(() -> UnmaskedCard.builder()
         .expiry(YearMonth.now().plusMonths(1L))
         .securityCode("123")
         .build())
@@ -22,7 +22,7 @@ final class PaymentCardTests {
 
   @Test
   void expiryIsRequired() {
-    assertThatThrownBy(() -> PaymentCard.builder()
+    assertThatThrownBy(() -> UnmaskedCard.builder()
         .number("01234567898765")
         .securityCode("123")
         .build())
@@ -32,7 +32,7 @@ final class PaymentCardTests {
 
   @Test
   void securityCodeIsRequired() {
-    assertThatThrownBy(() -> PaymentCard.builder()
+    assertThatThrownBy(() -> UnmaskedCard.builder()
         .number("01234567898765")
         .expiry(YearMonth.now().plusMonths(1L))
         .build())
@@ -43,7 +43,7 @@ final class PaymentCardTests {
   @ValueSource(strings = {"abcdefghijklmn", "", " ", "1", "01234567890123456789"})
   @ParameterizedTest
   void numberMustBeValid(final String number) {
-    assertThatThrownBy(() -> PaymentCard.builder()
+    assertThatThrownBy(() -> UnmaskedCard.builder()
         .number(number)
         .expiry(YearMonth.now().plusMonths(1L))
         .securityCode("123")
@@ -54,7 +54,7 @@ final class PaymentCardTests {
 
   @Test
   void expiryMustBeInTheFuture() {
-    assertThatThrownBy(() -> PaymentCard.builder()
+    assertThatThrownBy(() -> UnmaskedCard.builder()
         .number("01234567898765")
         .expiry(YearMonth.parse("1996-12"))
         .securityCode("123")
@@ -66,7 +66,7 @@ final class PaymentCardTests {
   @ValueSource(strings = {"", " ", "a", "12", "12345"})
   @ParameterizedTest
   void securityCodeMustBeValid(final String securityCode) {
-    assertThatThrownBy(() -> PaymentCard.builder()
+    assertThatThrownBy(() -> UnmaskedCard.builder()
         .number("01234567898765")
         .expiry(YearMonth.now().plusMonths(1L))
         .securityCode(securityCode)
@@ -78,7 +78,7 @@ final class PaymentCardTests {
 
   @Test
   void valid() {
-    assertThat(PaymentCard.builder()
+    assertThat(UnmaskedCard.builder()
         .number("01234567898765")
         .expiry(YearMonth.now().plusMonths(1L))
         .securityCode("123")
@@ -88,7 +88,7 @@ final class PaymentCardTests {
 
   @Test
   void toStringDoesNotLeakSensitiveData() {
-    assertThat(PaymentCard.builder()
+    assertThat(UnmaskedCard.builder()
         .number("01234567898765")
         .expiry(YearMonth.now().plusMonths(1L))
         .securityCode("123")
