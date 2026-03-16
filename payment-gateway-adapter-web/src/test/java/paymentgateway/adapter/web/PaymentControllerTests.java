@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
+import paymentgateway.domain.exception.AcquiringBankException;
 import paymentgateway.domain.exception.DomainValidationException;
 import paymentgateway.domain.port.in.ProcessPaymentCommand;
 import paymentgateway.domain.port.in.ProcessPaymentUseCase;
@@ -94,6 +95,27 @@ final class PaymentControllerTests {
               "instance": "/payments",
               "status": 422,
               "title": "Unprocessable Content"
+            }""");
+  }
+
+  @Test
+  void acquiringBankException() {
+    when(processPaymentUseCase.processPayment(any(ProcessPaymentCommand.class)))
+        .thenThrow(AcquiringBankException.class);
+
+    mockMvcTester.post()
+        .uri("/payments")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(
+            new PaymentRequest("01234567891234", 1, 2026, "GBP", 1L, "123")))
+        .assertThat()
+        .hasStatus(HttpStatus.BAD_GATEWAY)
+        .bodyJson()
+        .isEqualTo("""
+            {
+              "instance": "/payments",
+              "status": 502,
+              "title": "Bad Gateway"
             }""");
   }
 
