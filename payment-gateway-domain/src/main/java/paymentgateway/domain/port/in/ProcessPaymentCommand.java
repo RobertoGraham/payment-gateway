@@ -4,6 +4,6 @@ import lombok.Builder;
 
 @Builder
 public record ProcessPaymentCommand(String cardNumber, int cardExpiryMonth, int cardExpiryYear,
-                                    long amount, String currency) {
+                                    String cardSecurityCode, long amount, String currency) {
 
 }
