@@ -3,7 +3,6 @@ package paymentgateway.adapter.acquiringbank;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
-import java.math.BigInteger;
 import java.time.YearMonth;
 import java.util.Currency;
 import java.util.Optional;
@@ -69,7 +68,7 @@ final class AcquiringBankPortTests {
         .expiry(YearMonth.now().plusMonths(1L))
         .securityCode("123")
         .build(), MonetaryAmount.builder()
-        .value(BigInteger.ONE)
+        .value(1L)
         .currency(Currency.getInstance("GBP"))
         .build()))
         .isInstanceOf(Authorized.class);
@@ -82,7 +81,7 @@ final class AcquiringBankPortTests {
         .expiry(YearMonth.now().plusMonths(1L))
         .securityCode("123")
         .build(), MonetaryAmount.builder()
-        .value(BigInteger.ONE)
+        .value(1L)
         .currency(Currency.getInstance("GBP"))
         .build()))
         .isInstanceOf(Declined.class);
@@ -95,7 +94,7 @@ final class AcquiringBankPortTests {
         .expiry(YearMonth.now().plusMonths(1L))
         .securityCode("123")
         .build(), MonetaryAmount.builder()
-        .value(BigInteger.ONE)
+        .value(1L)
         .currency(Currency.getInstance("GBP"))
         .build()))
         .isInstanceOf(Failed.class);

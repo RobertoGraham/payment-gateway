@@ -3,10 +3,12 @@ package paymentgateway.adapter.paymentrepository;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.stereotype.Component;
 import paymentgateway.domain.model.Payment;
 import paymentgateway.domain.model.PaymentId;
 import paymentgateway.domain.port.out.PaymentRepositoryPort;
 
+@Component
 final class PaymentRepositoryAdapter implements PaymentRepositoryPort {
 
   private final Map<PaymentId, Payment> payments = new ConcurrentHashMap<>();

@@ -2,7 +2,6 @@ package paymentgateway.adapter.paymentrepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.math.BigInteger;
 import java.time.YearMonth;
 import java.util.Currency;
 import java.util.UUID;
@@ -43,7 +42,7 @@ final class PaymentRepositoryPortTests {
             .build())
         .amount(MonetaryAmount.builder()
             .currency(Currency.getInstance("USD"))
-            .value(BigInteger.ONE)
+            .value(1L)
             .build())
         .status(PaymentStatus.AUTHORIZED)
         .build();
