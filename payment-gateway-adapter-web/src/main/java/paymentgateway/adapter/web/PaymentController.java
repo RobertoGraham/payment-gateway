@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import paymentgateway.domain.exception.DomainValidationException;
 import paymentgateway.domain.port.in.ProcessPaymentCommand;
 import paymentgateway.domain.port.in.ProcessPaymentUseCase;
 
@@ -20,13 +21,13 @@ final class PaymentController {
 
   private final ProcessPaymentUseCase processPaymentUseCase;
 
-  @ExceptionHandler(IllegalArgumentException.class)
-  static ProblemDetail handleDomainException() {
+  @ExceptionHandler(DomainValidationException.class)
+  static ProblemDetail handleDomainValidationException() {
     return ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_CONTENT, "Rejected");
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  static ProblemDetail handleValidationException() {
+  static ProblemDetail handleMethodArgumentNotValidException() {
     return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Rejected");
   }
 

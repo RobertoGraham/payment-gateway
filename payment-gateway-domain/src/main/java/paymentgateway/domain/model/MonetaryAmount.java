@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.Builder;
 import lombok.NonNull;
+import paymentgateway.domain.exception.DomainValidationException;
 
 @Builder
 public record MonetaryAmount(long value, @NonNull Currency currency) {
@@ -16,10 +17,10 @@ public record MonetaryAmount(long value, @NonNull Currency currency) {
 
   public MonetaryAmount {
     if (value < 1) {
-      throw new IllegalArgumentException("value must be positive");
+      throw new DomainValidationException("value must be positive");
     }
     if (!ACCEPTABLE_CURRENCIES.contains(currency)) {
-      throw new IllegalArgumentException("currency must be accepted");
+      throw new DomainValidationException("currency must be accepted");
     }
   }
 }

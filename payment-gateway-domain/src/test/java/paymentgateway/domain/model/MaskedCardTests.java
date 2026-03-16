@@ -7,6 +7,7 @@ import java.time.YearMonth;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import paymentgateway.domain.exception.DomainValidationException;
 
 final class MaskedCardTests {
 
@@ -35,7 +36,7 @@ final class MaskedCardTests {
         .last4Digits(last4Digits)
         .expiry(YearMonth.now().plusMonths(1L))
         .build())
-        .isInstanceOf(IllegalArgumentException.class)
+        .isInstanceOf(DomainValidationException.class)
         .hasMessage("last4Digits must only contain numeric characters and be 4 characters");
   }
 

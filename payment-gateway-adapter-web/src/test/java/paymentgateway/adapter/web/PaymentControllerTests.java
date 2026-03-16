@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
+import paymentgateway.domain.exception.DomainValidationException;
 import paymentgateway.domain.port.in.ProcessPaymentCommand;
 import paymentgateway.domain.port.in.ProcessPaymentUseCase;
 import tools.jackson.databind.ObjectMapper;
@@ -53,7 +54,7 @@ final class PaymentControllerTests {
       01234567890123,       1,    2026, GBP,  1,    12345
       01234567890123,       1,    2026, GBP,  1,    abc""", nullValues = "null")
   @ParameterizedTest
-  void invalidPaymentRequest(final String cardNumber, final Integer expiryMonth,
+  void methodArgumentNotValidException(final String cardNumber, final Integer expiryMonth,
       final Integer expiryYear, final String currency, final Long amount, final String cvv) {
     mockMvcTester.post()
         .uri("/payments")
@@ -75,9 +76,9 @@ final class PaymentControllerTests {
   }
 
   @Test
-  void domainThrowsException() {
+  void domainValidationException() {
     when(processPaymentUseCase.processPayment(any(ProcessPaymentCommand.class)))
-        .thenThrow(IllegalArgumentException.class);
+        .thenThrow(DomainValidationException.class);
 
     mockMvcTester.post()
         .uri("/payments")

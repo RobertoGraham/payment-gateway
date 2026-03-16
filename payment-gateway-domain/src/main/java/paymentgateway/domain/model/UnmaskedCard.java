@@ -3,6 +3,7 @@ package paymentgateway.domain.model;
 import java.time.YearMonth;
 import lombok.Builder;
 import lombok.NonNull;
+import paymentgateway.domain.exception.DomainValidationException;
 
 @Builder
 public record UnmaskedCard(@NonNull String number, @NonNull YearMonth expiry,
@@ -10,14 +11,14 @@ public record UnmaskedCard(@NonNull String number, @NonNull YearMonth expiry,
 
   public UnmaskedCard {
     if (!number.matches("^\\d{14,19}$")) {
-      throw new IllegalArgumentException(
+      throw new DomainValidationException(
           "number must only contain numeric characters and be between 14-19 characters");
     }
     if (!expiry.isAfter(YearMonth.now())) {
-      throw new IllegalArgumentException("expiry must be in the future");
+      throw new DomainValidationException("expiry must be in the future");
     }
     if (!securityCode.matches("^\\d{3,4}$")) {
-      throw new IllegalArgumentException(
+      throw new DomainValidationException(
           "securityCode must only contain numeric characters and be between 3-4 characters");
     }
   }

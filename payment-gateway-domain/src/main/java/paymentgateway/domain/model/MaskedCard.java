@@ -3,13 +3,14 @@ package paymentgateway.domain.model;
 import java.time.YearMonth;
 import lombok.Builder;
 import lombok.NonNull;
+import paymentgateway.domain.exception.DomainValidationException;
 
 @Builder
 public record MaskedCard(@NonNull String last4Digits, @NonNull YearMonth expiry) {
 
   public MaskedCard {
     if (!last4Digits.matches("^\\d{4}$")) {
-      throw new IllegalArgumentException(
+      throw new DomainValidationException(
           "last4Digits must only contain numeric characters and be 4 characters");
     }
   }

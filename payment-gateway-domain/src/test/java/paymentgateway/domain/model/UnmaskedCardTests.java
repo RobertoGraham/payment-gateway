@@ -7,6 +7,7 @@ import java.time.YearMonth;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import paymentgateway.domain.exception.DomainValidationException;
 
 final class UnmaskedCardTests {
 
@@ -48,7 +49,7 @@ final class UnmaskedCardTests {
         .expiry(YearMonth.now().plusMonths(1L))
         .securityCode("123")
         .build())
-        .isInstanceOf(IllegalArgumentException.class)
+        .isInstanceOf(DomainValidationException.class)
         .hasMessage("number must only contain numeric characters and be between 14-19 characters");
   }
 
@@ -59,7 +60,7 @@ final class UnmaskedCardTests {
         .expiry(YearMonth.parse("1996-12"))
         .securityCode("123")
         .build())
-        .isInstanceOf(IllegalArgumentException.class)
+        .isInstanceOf(DomainValidationException.class)
         .hasMessage("expiry must be in the future");
   }
 
@@ -71,7 +72,7 @@ final class UnmaskedCardTests {
         .expiry(YearMonth.now().plusMonths(1L))
         .securityCode(securityCode)
         .build())
-        .isInstanceOf(IllegalArgumentException.class)
+        .isInstanceOf(DomainValidationException.class)
         .hasMessage(
             "securityCode must only contain numeric characters and be between 3-4 characters");
   }
