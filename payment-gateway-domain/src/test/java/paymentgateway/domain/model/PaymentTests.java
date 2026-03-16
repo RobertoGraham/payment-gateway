@@ -3,7 +3,6 @@ package paymentgateway.domain.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.math.BigInteger;
 import java.time.YearMonth;
 import java.util.Currency;
 import java.util.UUID;
@@ -20,7 +19,7 @@ final class PaymentTests {
             .build())
         .amount(MonetaryAmount.builder()
             .currency(Currency.getInstance("USD"))
-            .value(BigInteger.ONE)
+            .value(1L)
             .build())
         .status(PaymentStatus.AUTHORIZED)
         .build())
@@ -49,7 +48,7 @@ final class PaymentTests {
     assertThatThrownBy(() -> Payment.builder()
         .amount(MonetaryAmount.builder()
             .currency(Currency.getInstance("USD"))
-            .value(BigInteger.ONE)
+            .value(1L)
             .build())
         .id(PaymentId.builder()
             .value(UUID.randomUUID())
@@ -65,7 +64,7 @@ final class PaymentTests {
     assertThatThrownBy(() -> Payment.builder()
         .amount(MonetaryAmount.builder()
             .currency(Currency.getInstance("USD"))
-            .value(BigInteger.ONE)
+            .value(1L)
             .build())
         .id(PaymentId.builder()
             .value(UUID.randomUUID())
@@ -91,7 +90,7 @@ final class PaymentTests {
             .build())
         .amount(MonetaryAmount.builder()
             .currency(Currency.getInstance("USD"))
-            .value(BigInteger.ONE)
+            .value(1L)
             .build())
         .status(PaymentStatus.AUTHORIZED)
         .build())

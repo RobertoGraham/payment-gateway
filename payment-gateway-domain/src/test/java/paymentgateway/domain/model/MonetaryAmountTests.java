@@ -3,7 +3,6 @@ package paymentgateway.domain.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.math.BigInteger;
 import java.util.Currency;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -22,26 +21,17 @@ final class MonetaryAmountTests {
   }
 
   @Test
-  void valueIsRequired() {
-    assertThatThrownBy(() -> MonetaryAmount.builder()
-        .currency(Currency.getInstance("USD"))
-        .build())
-        .isInstanceOf(NullPointerException.class)
-        .hasMessage("value is marked non-null but is null");
-  }
-
-  @Test
   void currencyIsRequired() {
     assertThatThrownBy(() -> MonetaryAmount.builder()
-        .value(BigInteger.ONE)
+        .value(1L)
         .build())
         .isInstanceOf(NullPointerException.class)
         .hasMessage("currency is marked non-null but is null");
   }
 
-  @ValueSource(strings = {"-1", "0"})
+  @ValueSource(longs = {-1L, 0L})
   @ParameterizedTest
-  void valueMustBePositive(final BigInteger value) {
+  void valueMustBePositive(final long value) {
     assertThatThrownBy(() -> MonetaryAmount.builder()
         .value(value)
         .currency(Currency.getInstance("USD"))
@@ -54,7 +44,7 @@ final class MonetaryAmountTests {
   @ParameterizedTest
   void currencyMustBeAccepted(final Currency currency) {
     assertThatThrownBy(() -> MonetaryAmount.builder()
-        .value(BigInteger.ONE)
+        .value(1L)
         .currency(currency)
         .build())
         .isInstanceOf(IllegalArgumentException.class)
@@ -65,7 +55,7 @@ final class MonetaryAmountTests {
   @ParameterizedTest
   void valid(final Currency currency) {
     assertThat(MonetaryAmount.builder()
-        .value(BigInteger.ONE)
+        .value(1L)
         .currency(currency)
         .build())
         .isNotNull();
