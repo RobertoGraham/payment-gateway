@@ -31,21 +31,21 @@ final class PaymentRetrieverServiceTests {
   private PaymentRetrieverService subject;
 
   @Test
-  void paymentRepositoryPortIsRequired() {
+  void whenPaymentRepositoryPortIsNullThenNullPointerExceptionIsThrown() {
     assertThatThrownBy(() -> new PaymentRetrieverService(null))
         .isInstanceOf(NullPointerException.class)
         .hasMessage("paymentRepositoryPort is marked non-null but is null");
   }
 
   @Test
-  void idIsRequired() {
+  void whenIdIsNullThenNullPointerExceptionIsThrown() {
     assertThatThrownBy(() -> subject.retrieve(null))
         .isInstanceOf(NullPointerException.class)
         .hasMessage("id is marked non-null but is null");
   }
 
   @Test
-  void present() {
+  void whenPaymentExistsThenOptionalWithPaymentIsReturned() {
     final var id = PaymentId.builder()
         .value(UUID.randomUUID())
         .build();
@@ -73,7 +73,7 @@ final class PaymentRetrieverServiceTests {
   }
 
   @Test
-  void empty() {
+  void whenPaymentDoesNotExistThenEmptyOptionalIsReturned() {
     final var id = PaymentId.builder()
         .value(UUID.randomUUID())
         .build();

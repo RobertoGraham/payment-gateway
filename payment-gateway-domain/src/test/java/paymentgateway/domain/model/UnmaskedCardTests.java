@@ -12,7 +12,7 @@ import paymentgateway.domain.exception.DomainValidationException;
 final class UnmaskedCardTests {
 
   @Test
-  void numberIsRequired() {
+  void whenNumberIsMissingThenNullPointerExceptionIsThrown() {
     assertThatThrownBy(() -> UnmaskedCard.builder()
         .expiry(YearMonth.now().plusMonths(1L))
         .securityCode("123")
@@ -22,7 +22,7 @@ final class UnmaskedCardTests {
   }
 
   @Test
-  void expiryIsRequired() {
+  void whenExpiryIsMissingThenNullPointerExceptionIsThrown() {
     assertThatThrownBy(() -> UnmaskedCard.builder()
         .number("01234567898765")
         .securityCode("123")
@@ -32,7 +32,7 @@ final class UnmaskedCardTests {
   }
 
   @Test
-  void securityCodeIsRequired() {
+  void whenSecurityCodeIsMissingThenNullPointerExceptionIsThrown() {
     assertThatThrownBy(() -> UnmaskedCard.builder()
         .number("01234567898765")
         .expiry(YearMonth.now().plusMonths(1L))
@@ -43,7 +43,7 @@ final class UnmaskedCardTests {
 
   @ValueSource(strings = {"abcdefghijklmn", "", " ", "1", "01234567890123456789"})
   @ParameterizedTest
-  void numberMustBeValid(final String number) {
+  void whenCardNumberIsInvalidThenDomainValidationExceptionIsThrown(final String number) {
     assertThatThrownBy(() -> UnmaskedCard.builder()
         .number(number)
         .expiry(YearMonth.now().plusMonths(1L))
@@ -54,7 +54,7 @@ final class UnmaskedCardTests {
   }
 
   @Test
-  void expiryMustBeInTheFuture() {
+  void whenExpiryIsInThePastThenDomainValidationExceptionIsThrown() {
     assertThatThrownBy(() -> UnmaskedCard.builder()
         .number("01234567898765")
         .expiry(YearMonth.parse("1996-12"))
@@ -66,7 +66,7 @@ final class UnmaskedCardTests {
 
   @ValueSource(strings = {"", " ", "a", "12", "12345"})
   @ParameterizedTest
-  void securityCodeMustBeValid(final String securityCode) {
+  void whenSecurityCodeIsInvalidThenDomainValidationExceptionIsThrown(final String securityCode) {
     assertThatThrownBy(() -> UnmaskedCard.builder()
         .number("01234567898765")
         .expiry(YearMonth.now().plusMonths(1L))
@@ -78,7 +78,7 @@ final class UnmaskedCardTests {
   }
 
   @Test
-  void valid() {
+  void whenAllFieldsAreValidThenUnmaskedCardIsCreated() {
     assertThat(UnmaskedCard.builder()
         .number("01234567898765")
         .expiry(YearMonth.now().plusMonths(1L))
@@ -88,7 +88,7 @@ final class UnmaskedCardTests {
   }
 
   @Test
-  void toStringDoesNotLeakSensitiveData() {
+  void whenToStringIsCalledThenSensitiveDataIsNotLeaked() {
     assertThat(UnmaskedCard.builder()
         .number("01234567898765")
         .expiry(YearMonth.now().plusMonths(1L))

@@ -67,7 +67,8 @@ final class PaymentControllerTests {
       01234567890123,       1,    2026, GBP,  1,    12345
       01234567890123,       1,    2026, GBP,  1,    abc""", nullValues = "null")
   @ParameterizedTest
-  void methodArgumentNotValidException(final String cardNumber, final Integer expiryMonth,
+  void whenInvalidPaymentRequestFieldsThenBadRequestIsReturned(final String cardNumber,
+      final Integer expiryMonth,
       final Integer expiryYear, final String currency, final Long amount, final String cvv) {
     mockMvcTester.post()
         .uri("/payments")
@@ -89,7 +90,7 @@ final class PaymentControllerTests {
   }
 
   @Test
-  void domainValidationException() {
+  void whenDomainValidationExceptionThenUnprocessableContentIsReturned() {
     when(processPaymentUseCase.processPayment(any(ProcessPaymentCommand.class)))
         .thenThrow(DomainValidationException.class);
 
@@ -111,7 +112,7 @@ final class PaymentControllerTests {
   }
 
   @Test
-  void acquiringBankException() {
+  void whenAcquiringBankExceptionThenBadGatewayIsReturned() {
     when(processPaymentUseCase.processPayment(any(ProcessPaymentCommand.class)))
         .thenThrow(AcquiringBankException.class);
 
@@ -135,7 +136,8 @@ final class PaymentControllerTests {
       AUTHORIZED, Authorized
       DECLINED,   Declined""")
   @ParameterizedTest
-  void created(final PaymentStatus paymentStatus, final String expectedStatus) {
+  void whenPaymentIsProcessedThenCreatedResponseIsReturned(final PaymentStatus paymentStatus,
+      final String expectedStatus) {
     final var id = "00000000-0000-0000-0000-000000000000";
 
     when(processPaymentUseCase.processPayment(any(ProcessPaymentCommand.class)))
@@ -174,7 +176,7 @@ final class PaymentControllerTests {
   }
 
   @Test
-  void found() {
+  void whenPaymentExistsThenPaymentIsReturned() {
     final var id = "00000000-0000-0000-0000-000000000000";
 
     when(retrievePaymentQuery.retrieve(any(PaymentId.class)))
@@ -210,7 +212,7 @@ final class PaymentControllerTests {
   }
 
   @Test
-  void notFoundValidUUID() {
+  void whenPaymentNotFoundWithValidUUIDThenNotFoundIsReturned() {
     final var id = "00000000-0000-0000-0000-000000000000";
 
     when(retrievePaymentQuery.retrieve(any(PaymentId.class)))
@@ -225,7 +227,7 @@ final class PaymentControllerTests {
   }
 
   @Test
-  void notFoundInvalidUUID() {
+  void whenPaymentIdIsInvalidUUIDThenNotFoundIsReturnedWithoutCallingQuery() {
     mockMvcTester.get()
         .uri("/payment/{id}", "not-a-valid-uuid")
         .assertThat()

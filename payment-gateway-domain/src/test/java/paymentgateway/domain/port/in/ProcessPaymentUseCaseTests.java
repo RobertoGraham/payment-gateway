@@ -13,7 +13,8 @@ import paymentgateway.domain.port.out.PaymentRepositoryPort;
 final class ProcessPaymentUseCaseTests {
 
   @Test
-  void newProcessPaymentUseCase(@Mock final AcquiringBankPort acquiringBankPort,
+  void whenNewProcessPaymentUseCaseIsCalledThenPaymentProcessorServiceIsReturned(
+      @Mock final AcquiringBankPort acquiringBankPort,
       @Mock final PaymentRepositoryPort paymentRepositoryPort) {
     assertThat(
         ProcessPaymentUseCase.newProcessPaymentUseCase(acquiringBankPort, paymentRepositoryPort))

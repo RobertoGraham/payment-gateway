@@ -12,7 +12,7 @@ import paymentgateway.domain.exception.DomainValidationException;
 final class MaskedCardTests {
 
   @Test
-  void last4DigitsIsRequired() {
+  void whenLast4DigitsIsMissingThenNullPointerExceptionIsThrown() {
     assertThatThrownBy(() -> MaskedCard.builder()
         .expiry(YearMonth.now().plusMonths(1L))
         .build())
@@ -21,7 +21,7 @@ final class MaskedCardTests {
   }
 
   @Test
-  void expiryIsRequired() {
+  void whenExpiryIsMissingThenNullPointerExceptionIsThrown() {
     assertThatThrownBy(() -> MaskedCard.builder()
         .last4Digits("0123")
         .build())
@@ -31,7 +31,7 @@ final class MaskedCardTests {
 
   @ValueSource(strings = {"abcd", "", " ", "1", "12345"})
   @ParameterizedTest
-  void last4DigitsMustBeValid(final String last4Digits) {
+  void whenLast4DigitsIsInvalidThenDomainValidationExceptionIsThrown(final String last4Digits) {
     assertThatThrownBy(() -> MaskedCard.builder()
         .last4Digits(last4Digits)
         .expiry(YearMonth.now().plusMonths(1L))
@@ -41,7 +41,7 @@ final class MaskedCardTests {
   }
 
   @Test
-  void valid() {
+  void whenAllFieldsAreValidThenMaskedCardIsCreated() {
     assertThat(MaskedCard.builder()
         .last4Digits("0123")
         .expiry(YearMonth.parse("1996-12"))
