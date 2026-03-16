@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.YearMonth;
 import java.util.Currency;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -28,6 +29,7 @@ import paymentgateway.domain.model.PaymentId;
 import paymentgateway.domain.model.PaymentStatus;
 import paymentgateway.domain.port.in.ProcessPaymentCommand;
 import paymentgateway.domain.port.in.ProcessPaymentUseCase;
+import paymentgateway.domain.port.in.RetrievePaymentQuery;
 import tools.jackson.databind.ObjectMapper;
 
 @SpringBootTest
@@ -41,6 +43,8 @@ final class PaymentControllerTests {
   private ObjectMapper objectMapper;
   @MockitoBean
   private ProcessPaymentUseCase processPaymentUseCase;
+  @MockitoBean
+  private RetrievePaymentQuery retrievePaymentQuery;
 
   @CsvSource(textBlock = """
       null,                 1,    2026, GBP,  1,    123
@@ -167,6 +171,69 @@ final class PaymentControllerTests {
                "expiryYear": 2026,
                "currency": "GBP"
              }""".formatted(expectedStatus));
+  }
+
+  @Test
+  void found() {
+    final var id = "00000000-0000-0000-0000-000000000000";
+
+    when(retrievePaymentQuery.retrieve(any(PaymentId.class)))
+        .thenReturn(Optional.of(Payment.builder()
+            .id(PaymentId.builder()
+                .value(UUID.fromString(id))
+                .build())
+            .card(MaskedCard.builder()
+                .last4Digits("1234")
+                .expiry(YearMonth.of(2026, 1))
+                .build())
+            .status(PaymentStatus.AUTHORIZED)
+            .amount(MonetaryAmount.builder()
+                .value(1L)
+                .currency(Currency.getInstance("GBP"))
+                .build())
+            .build()));
+
+    mockMvcTester.get()
+        .uri("/payment/{id}", id)
+        .assertThat()
+        .hasStatusOk()
+        .bodyJson()
+        .isEqualTo("""
+            {
+               "id": "00000000-0000-0000-0000-000000000000",
+               "status": "Authorized",
+               "last4Digits": "1234",
+               "expiryMonth": 1,
+               "expiryYear": 2026,
+               "currency": "GBP"
+             }""");
+  }
+
+  @Test
+  void notFoundValidUUID() {
+    final var id = "00000000-0000-0000-0000-000000000000";
+
+    when(retrievePaymentQuery.retrieve(any(PaymentId.class)))
+        .thenReturn(Optional.empty());
+
+    mockMvcTester.get()
+        .uri("/payment/{id}", id)
+        .assertThat()
+        .hasStatus(HttpStatus.NOT_FOUND)
+        .bodyText()
+        .isEmpty();
+  }
+
+  @Test
+  void notFoundInvalidUUID() {
+    mockMvcTester.get()
+        .uri("/payment/{id}", "not-a-valid-uuid")
+        .assertThat()
+        .hasStatus(HttpStatus.NOT_FOUND)
+        .bodyText()
+        .isEmpty();
+
+    verifyNoInteractions(retrievePaymentQuery);
   }
 
   @SpringBootConfiguration(proxyBeanMethods = false)
