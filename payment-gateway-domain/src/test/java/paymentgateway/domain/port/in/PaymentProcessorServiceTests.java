@@ -37,28 +37,28 @@ final class PaymentProcessorServiceTests {
   private PaymentProcessorService subject;
 
   @Test
-  void acquiringBankPortIsRequired() {
+  void whenAcquiringBankPortIsNullThenNullPointerExceptionIsThrown() {
     assertThatThrownBy(() -> new PaymentProcessorService(null, paymentRepository))
         .isInstanceOf(NullPointerException.class)
         .hasMessage("acquiringBankPort is marked non-null but is null");
   }
 
   @Test
-  void paymentRepositoryPortIsRequired() {
+  void whenPaymentRepositoryPortIsNullThenNullPointerExceptionIsThrown() {
     assertThatThrownBy(() -> new PaymentProcessorService(acquiringBank, null))
         .isInstanceOf(NullPointerException.class)
         .hasMessage("paymentRepositoryPort is marked non-null but is null");
   }
 
   @Test
-  void commandIsRequired() {
+  void whenCommandIsNullThenNullPointerExceptionIsThrown() {
     assertThatThrownBy(() -> subject.processPayment(null))
         .isInstanceOf(NullPointerException.class)
         .hasMessage("command is marked non-null but is null");
   }
 
   @Test
-  void acquiringBankAuthorized() {
+  void whenAcquiringBankAuthorizesPaymentThenAuthorizedPaymentIsSaved() {
     final var cardNumber = "01234567890123";
     final var cardExpiry = YearMonth.now().plusMonths(1L);
     final var cardSecurityCode = "123";
@@ -102,7 +102,7 @@ final class PaymentProcessorServiceTests {
   }
 
   @Test
-  void acquiringBankDeclined() {
+  void whenAcquiringBankDeclinesPaymentThenDeclinedPaymentIsSaved() {
     final var cardNumber = "01234567890123";
     final var cardExpiry = YearMonth.now().plusMonths(1L);
     final var cardSecurityCode = "123";
@@ -146,7 +146,7 @@ final class PaymentProcessorServiceTests {
   }
 
   @Test
-  void acquiringBankFailed() {
+  void whenAcquiringBankFailsThenAcquiringBankExceptionIsThrownAndPaymentNotSaved() {
     final var cardNumber = "01234567890123";
     final var cardExpiry = YearMonth.now().plusMonths(1L);
     final var cardSecurityCode = "123";

@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 final class PaymentGatewayApplicationTests {
 
   @Test
-  void contextLoads() {
+  void whenApplicationStartsThenContextLoads() {
 
   }
 }

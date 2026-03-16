@@ -22,7 +22,7 @@ final class MonetaryAmountTests {
   }
 
   @Test
-  void currencyIsRequired() {
+  void whenCurrencyIsMissingThenNullPointerExceptionIsThrown() {
     assertThatThrownBy(() -> MonetaryAmount.builder()
         .value(1L)
         .build())
@@ -32,7 +32,7 @@ final class MonetaryAmountTests {
 
   @ValueSource(longs = {-1L, 0L})
   @ParameterizedTest
-  void valueMustBePositive(final long value) {
+  void whenValueIsNotPositiveThenDomainValidationExceptionIsThrown(final long value) {
     assertThatThrownBy(() -> MonetaryAmount.builder()
         .value(value)
         .currency(Currency.getInstance("USD"))
@@ -43,7 +43,7 @@ final class MonetaryAmountTests {
 
   @MethodSource("unacceptableCurrencies")
   @ParameterizedTest
-  void currencyMustBeAccepted(final Currency currency) {
+  void whenCurrencyIsNotAcceptedThenDomainValidationExceptionIsThrown(final Currency currency) {
     assertThatThrownBy(() -> MonetaryAmount.builder()
         .value(1L)
         .currency(currency)
@@ -54,7 +54,7 @@ final class MonetaryAmountTests {
 
   @ValueSource(strings = {"USD", "EUR", "GBP"})
   @ParameterizedTest
-  void valid(final Currency currency) {
+  void whenAcceptedCurrencyAndPositiveValueThenMonetaryAmountIsCreated(final Currency currency) {
     assertThat(MonetaryAmount.builder()
         .value(1L)
         .currency(currency)

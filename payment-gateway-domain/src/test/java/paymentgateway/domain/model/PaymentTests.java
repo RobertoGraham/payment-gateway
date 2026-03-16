@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 final class PaymentTests {
 
   @Test
-  void idIsRequired() {
+  void whenIdIsMissingThenNullPointerExceptionIsThrown() {
     assertThatThrownBy(() -> Payment.builder()
         .card(MaskedCard.builder()
             .last4Digits("0123")
@@ -28,7 +28,7 @@ final class PaymentTests {
   }
 
   @Test
-  void amountIsRequired() {
+  void whenAmountIsMissingThenNullPointerExceptionIsThrown() {
     assertThatThrownBy(() -> Payment.builder()
         .card(MaskedCard.builder()
             .last4Digits("0123")
@@ -44,7 +44,7 @@ final class PaymentTests {
   }
 
   @Test
-  void cardIsRequired() {
+  void whenCardIsMissingThenNullPointerExceptionIsThrown() {
     assertThatThrownBy(() -> Payment.builder()
         .amount(MonetaryAmount.builder()
             .currency(Currency.getInstance("USD"))
@@ -60,7 +60,7 @@ final class PaymentTests {
   }
 
   @Test
-  void statusIsRequired() {
+  void whenStatusIsMissingThenNullPointerExceptionIsThrown() {
     assertThatThrownBy(() -> Payment.builder()
         .amount(MonetaryAmount.builder()
             .currency(Currency.getInstance("USD"))
@@ -79,7 +79,7 @@ final class PaymentTests {
   }
 
   @Test
-  void valid() {
+  void whenAllRequiredFieldsAreProvidedThenPaymentIsCreated() {
     assertThat(Payment.builder()
         .id(PaymentId.builder()
             .value(UUID.randomUUID())

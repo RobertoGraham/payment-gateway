@@ -12,7 +12,8 @@ import paymentgateway.domain.port.out.PaymentRepositoryPort;
 final class RetrievePaymentQueryTests {
 
   @Test
-  void newRetrievePaymentQuery(@Mock final PaymentRepositoryPort paymentRepositoryPort) {
+  void whenNewRetrievePaymentQueryIsCalledThenPaymentRetrieverServiceIsReturned(
+      @Mock final PaymentRepositoryPort paymentRepositoryPort) {
     assertThat(RetrievePaymentQuery.newRetrievePaymentQuery(paymentRepositoryPort))
         .isInstanceOf(PaymentRetrieverService.class);
   }

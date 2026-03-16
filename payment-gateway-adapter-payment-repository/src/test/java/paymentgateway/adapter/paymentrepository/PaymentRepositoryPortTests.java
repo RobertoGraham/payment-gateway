@@ -26,7 +26,7 @@ final class PaymentRepositoryPortTests {
   private PaymentRepositoryPort subject;
 
   @Test
-  void emptyAndPresent() {
+  void whenPaymentNotYetSavedThenRepositoryIsEmptyAndWhenSavedThenPaymentIsRetrievable() {
     final var id = PaymentId.builder()
         .value(UUID.randomUUID())
         .build();

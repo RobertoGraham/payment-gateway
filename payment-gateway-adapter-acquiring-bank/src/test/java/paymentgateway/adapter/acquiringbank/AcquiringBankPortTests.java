@@ -62,7 +62,7 @@ final class AcquiringBankPortTests {
   }
 
   @Test
-  void authorized() {
+  void whenCardIsAuthorizedByBankThenAuthorizedResultIsReturned() {
     assertThat(subject.authorize(UnmaskedCard.builder()
         .number("2222405343248871")
         .expiry(YearMonth.now().plusMonths(1L))
@@ -75,7 +75,7 @@ final class AcquiringBankPortTests {
   }
 
   @Test
-  void declined() {
+  void whenCardIsDeclinedByBankThenDeclinedResultIsReturned() {
     assertThat(subject.authorize(UnmaskedCard.builder()
         .number("2222405343248872")
         .expiry(YearMonth.now().plusMonths(1L))
@@ -88,7 +88,7 @@ final class AcquiringBankPortTests {
   }
 
   @Test
-  void failed() {
+  void whenBankFailsThenFailedResultIsReturned() {
     assertThat(subject.authorize(UnmaskedCard.builder()
         .number("2222405343248870")
         .expiry(YearMonth.now().plusMonths(1L))

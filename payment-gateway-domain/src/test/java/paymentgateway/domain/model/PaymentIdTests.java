@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 final class PaymentIdTests {
 
   @Test
-  void valueIsRequired() {
+  void whenValueIsMissingThenNullPointerExceptionIsThrown() {
     assertThatThrownBy(() -> PaymentId.builder()
         .build())
         .isInstanceOf(NullPointerException.class)
@@ -17,7 +17,7 @@ final class PaymentIdTests {
   }
 
   @Test
-  void valid() {
+  void whenValueIsProvidedThenPaymentIdIsCreated() {
     assertThat(PaymentId.builder()
         .value(UUID.randomUUID())
         .build())
