@@ -11,6 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import paymentgateway.domain.exception.DomainValidationException;
 
 final class MonetaryAmountTests {
 
@@ -36,7 +37,7 @@ final class MonetaryAmountTests {
         .value(value)
         .currency(Currency.getInstance("USD"))
         .build())
-        .isInstanceOf(IllegalArgumentException.class)
+        .isInstanceOf(DomainValidationException.class)
         .hasMessage("value must be positive");
   }
 
@@ -47,7 +48,7 @@ final class MonetaryAmountTests {
         .value(1L)
         .currency(currency)
         .build())
-        .isInstanceOf(IllegalArgumentException.class)
+        .isInstanceOf(DomainValidationException.class)
         .hasMessage("currency must be accepted");
   }
 
