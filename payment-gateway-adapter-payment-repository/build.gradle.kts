@@ -1,5 +1,5 @@
 plugins {
-  `spring-boot-conventions`
+  `module-conventions`
   `java-library`
 }
 
