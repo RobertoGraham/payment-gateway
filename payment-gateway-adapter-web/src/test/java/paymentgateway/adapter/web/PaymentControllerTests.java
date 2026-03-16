@@ -4,6 +4,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
+import java.time.YearMonth;
+import java.util.Currency;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -18,6 +21,11 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 import paymentgateway.domain.exception.AcquiringBankException;
 import paymentgateway.domain.exception.DomainValidationException;
+import paymentgateway.domain.model.MaskedCard;
+import paymentgateway.domain.model.MonetaryAmount;
+import paymentgateway.domain.model.Payment;
+import paymentgateway.domain.model.PaymentId;
+import paymentgateway.domain.model.PaymentStatus;
 import paymentgateway.domain.port.in.ProcessPaymentCommand;
 import paymentgateway.domain.port.in.ProcessPaymentUseCase;
 import tools.jackson.databind.ObjectMapper;
@@ -117,6 +125,48 @@ final class PaymentControllerTests {
               "status": 502,
               "title": "Bad Gateway"
             }""");
+  }
+
+  @CsvSource(textBlock = """
+      AUTHORIZED, Authorized
+      DECLINED,   Declined""")
+  @ParameterizedTest
+  void created(final PaymentStatus paymentStatus, final String expectedStatus) {
+    final var id = "00000000-0000-0000-0000-000000000000";
+
+    when(processPaymentUseCase.processPayment(any(ProcessPaymentCommand.class)))
+        .thenReturn(Payment.builder()
+            .id(PaymentId.builder()
+                .value(UUID.fromString(id))
+                .build())
+            .card(MaskedCard.builder()
+                .last4Digits("1234")
+                .expiry(YearMonth.of(2026, 1))
+                .build())
+            .status(paymentStatus)
+            .amount(MonetaryAmount.builder()
+                .value(1L)
+                .currency(Currency.getInstance("GBP"))
+                .build())
+            .build());
+
+    mockMvcTester.post()
+        .uri("/payments")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(
+            new PaymentRequest("01234567891234", 1, 2026, "GBP", 1L, "123")))
+        .assertThat()
+        .hasStatus(HttpStatus.CREATED)
+        .bodyJson()
+        .isEqualTo("""
+            {
+               "id": "00000000-0000-0000-0000-000000000000",
+               "status": "%s",
+               "last4Digits": "1234",
+               "expiryMonth": 1,
+               "expiryYear": 2026,
+               "currency": "GBP"
+             }""".formatted(expectedStatus));
   }
 
   @SpringBootConfiguration(proxyBeanMethods = false)

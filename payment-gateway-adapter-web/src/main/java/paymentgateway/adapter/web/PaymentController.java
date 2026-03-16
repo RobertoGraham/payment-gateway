@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import paymentgateway.adapter.web.PaymentResponse.Status;
 import paymentgateway.domain.exception.AcquiringBankException;
 import paymentgateway.domain.exception.DomainValidationException;
 import paymentgateway.domain.port.in.ProcessPaymentCommand;
@@ -39,7 +40,7 @@ final class PaymentController {
 
   @PostMapping(path = "/payments", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.CREATED)
-  void processPayment(@Valid @RequestBody final PaymentRequest request) {
+  PaymentResponse processPayment(@Valid @RequestBody final PaymentRequest request) {
     final var payment = processPaymentUseCase.processPayment(ProcessPaymentCommand.builder()
         .currency(request.currency())
         .amount(request.amount())
@@ -48,5 +49,16 @@ final class PaymentController {
         .cardNumber(request.cardNumber())
         .cardSecurityCode(request.cvv())
         .build());
+    return PaymentResponse.builder()
+        .id(payment.id().value().toString())
+        .status(switch (payment.status()) {
+          case AUTHORIZED -> Status.AUTHORIZED;
+          case DECLINED -> Status.DECLINED;
+        })
+        .last4Digits(payment.card().last4Digits())
+        .expiryMonth(payment.card().expiry().getMonthValue())
+        .expiryYear(payment.card().expiry().getYear())
+        .currency(payment.amount().currency().getCurrencyCode())
+        .build();
   }
 }
