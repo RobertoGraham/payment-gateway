@@ -7,9 +7,12 @@ on:
       - .github/workflows/build-payment-gateway.yaml
       - gradle/**
       - buildSrc/**
+      - payment-gateway-adapter-acquiring-bank/**
+      - payment-gateway-adapter-payment-repository/**
+      - payment-gateway-adapter-web/**
       - payment-gateway-application/**
       - payment-gateway-domain/**
-      - payment-gateway-adapter-acquiring-bank/**
+      - compose.yaml
       - gradlew
       - settings.gradle.kts
   push:
@@ -18,9 +21,12 @@ on:
       - .github/workflows/build-payment-gateway.yaml
       - gradle/**
       - buildSrc/**
+      - payment-gateway-adapter-acquiring-bank/**
+      - payment-gateway-adapter-payment-repository/**
+      - payment-gateway-adapter-web/**
       - payment-gateway-application/**
       - payment-gateway-domain/**
-      - payment-gateway-adapter-acquiring-bank/**
+      - compose.yaml
       - gradlew
       - settings.gradle.kts
 
