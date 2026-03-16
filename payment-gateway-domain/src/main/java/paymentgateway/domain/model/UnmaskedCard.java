@@ -23,6 +23,13 @@ public record UnmaskedCard(@NonNull String number, @NonNull YearMonth expiry,
     }
   }
 
+  public MaskedCard mask() {
+    return MaskedCard.builder()
+        .last4Digits(number.substring(number.length() - 4))
+        .expiry(expiry)
+        .build();
+  }
+
   @Override
   public String toString() {
     return "PaymentCard{expiry=%s}".formatted(expiry);
