@@ -4,8 +4,8 @@ plugins {
 }
 
 dependencies {
-  implementation(project(":payment-gateway-domain"))
   implementation("org.springframework.boot:spring-boot-autoconfigure")
+  implementation(project(":payment-gateway-domain"))
   runtimeOnly(project(":payment-gateway-adapter-acquiring-bank"))
   runtimeOnly(project(":payment-gateway-adapter-payment-repository"))
   runtimeOnly(project(":payment-gateway-adapter-web"))

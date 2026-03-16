@@ -20,7 +20,7 @@ final class PaymentController {
 
   private final ProcessPaymentUseCase processPaymentUseCase;
 
-  @ExceptionHandler({NullPointerException.class, IllegalArgumentException.class})
+  @ExceptionHandler(IllegalArgumentException.class)
   static ProblemDetail handleDomainException() {
     return ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_CONTENT, "Rejected");
   }

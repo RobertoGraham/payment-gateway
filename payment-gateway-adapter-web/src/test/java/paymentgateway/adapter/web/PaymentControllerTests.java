@@ -4,9 +4,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -74,11 +74,10 @@ final class PaymentControllerTests {
     verifyNoInteractions(processPaymentUseCase);
   }
 
-  @ValueSource(classes = {NullPointerException.class, IllegalArgumentException.class})
-  @ParameterizedTest
-  void domainThrowsException(final Class<? extends Throwable> throwableClass) {
+  @Test
+  void domainThrowsException() {
     when(processPaymentUseCase.processPayment(any(ProcessPaymentCommand.class)))
-        .thenThrow(throwableClass);
+        .thenThrow(IllegalArgumentException.class);
 
     mockMvcTester.post()
         .uri("/payments")
