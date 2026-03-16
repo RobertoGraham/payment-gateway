@@ -4,5 +4,6 @@ include(
   "payment-gateway-application",
   "payment-gateway-domain",
   "payment-gateway-adapter-acquiring-bank",
-  "payment-gateway-adapter-payment-repository"
+  "payment-gateway-adapter-payment-repository",
+  "payment-gateway-adapter-web"
 )

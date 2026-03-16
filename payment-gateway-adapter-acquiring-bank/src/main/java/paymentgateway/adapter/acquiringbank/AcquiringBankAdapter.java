@@ -2,12 +2,14 @@ package paymentgateway.adapter.acquiringbank;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
+import org.springframework.stereotype.Component;
 import paymentgateway.domain.model.MonetaryAmount;
 import paymentgateway.domain.model.UnmaskedCard;
 import paymentgateway.domain.port.out.AcquiringBankPort;
 import paymentgateway.domain.port.out.BankAuthorizationResult;
 import paymentgateway.domain.port.out.BankAuthorizationResult.Failed;
 
+@Component
 @RequiredArgsConstructor
 final class AcquiringBankAdapter implements AcquiringBankPort {
 
