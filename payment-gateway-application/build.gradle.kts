@@ -1,5 +1,5 @@
 plugins {
-  `spring-boot-conventions`
+  `module-conventions`
   id("org.springframework.boot")
 }
 

@@ -1,9 +1,11 @@
 @file:Suppress("UnstableApiUsage")
 
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
   java
+  id("io.spring.dependency-management")
 }
 
 java {
@@ -25,6 +27,12 @@ testing {
 
 repositories {
   mavenCentral()
+}
+
+dependencyManagement {
+  imports {
+    mavenBom(SpringBootPlugin.BOM_COORDINATES)
+  }
 }
 
 tasks.withType<Test> {
