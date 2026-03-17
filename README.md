@@ -129,6 +129,34 @@ Content-Type: application/problem+json
 
 Connects merchants to the `RetrievePaymentQuery` driving port, allowing them to retrieve payments.
 
+Request:
+
+```http
+GET /payment/00000000-0000-0000-0000-000000000000 HTTP/1.1
+Host: localhost:8090
+```
+
+Responses:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "status": "Declined",
+  "last4Digits": "4242",
+  "expiryMonth": 1,
+  "expiryYear": 2030,
+  "currency": "GBP",
+  "amount": 1
+}
+```
+
+```http
+HTTP/1.1 404 Not Found
+```
+
 ### [payment-gateway-adapter-acquiring-bank](payment-gateway-adapter-acquiring-bank)
 
 ### [payment-gateway-adapter-payment-repository](payment-gateway-adapter-payment-repository)
