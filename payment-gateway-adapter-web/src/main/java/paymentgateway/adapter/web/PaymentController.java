@@ -29,6 +29,8 @@ import paymentgateway.domain.port.in.RetrievePaymentQuery;
 @RestController
 final class PaymentController {
 
+  private static final String REJECTED = "Rejected";
+
   private final ProcessPaymentUseCase processPaymentUseCase;
   private final RetrievePaymentQuery retrievePaymentQuery;
   private final UUIDValidator uuidValidator = new UUIDValidator();
@@ -46,12 +48,12 @@ final class PaymentController {
 
   @ExceptionHandler(DomainValidationException.class)
   static ProblemDetail handleDomainValidationException() {
-    return ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_CONTENT, "Rejected");
+    return ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_CONTENT, REJECTED);
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   static ProblemDetail handleMethodArgumentNotValidException() {
-    return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Rejected");
+    return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, REJECTED);
   }
 
   @ExceptionHandler(AcquiringBankException.class)

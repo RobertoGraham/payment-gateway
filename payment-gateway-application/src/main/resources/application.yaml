@@ -1,0 +1,13 @@
+server.port: 8090
+
+spring:
+  main.banner-mode: off
+  http.serviceclient.acquiring-bank.base-url: http://localhost:8080
+
+logging.structured:
+  format.console: logstash
+  json.stacktrace:
+    root: first
+    max-throwable-depth: 10
+    max-length: 2048
+    include-hashes: true
