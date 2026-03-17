@@ -1,4 +1,4 @@
-name: Build Payment Gateway
+name: Build payment-gateway
 
 on:
   pull_request:
@@ -42,7 +42,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Payment Gateway
+      - name: Checkout payment-gateway
         uses: actions/checkout@v6.0.2
 
       - name: Set up JDK
@@ -54,6 +54,6 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v5.0.2
 
-      - name: Build Payment Gateway
+      - name: Build payment-gateway
         shell: bash
         run: ./gradlew build
