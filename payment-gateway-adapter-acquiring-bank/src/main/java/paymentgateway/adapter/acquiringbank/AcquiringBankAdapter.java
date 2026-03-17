@@ -1,7 +1,6 @@
 package paymentgateway.adapter.acquiringbank;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.stereotype.Component;
 import paymentgateway.domain.model.MonetaryAmount;
@@ -10,7 +9,6 @@ import paymentgateway.domain.port.out.AcquiringBankPort;
 import paymentgateway.domain.port.out.BankAuthorizationResult;
 import paymentgateway.domain.port.out.BankAuthorizationResult.Failed;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 final class AcquiringBankAdapter implements AcquiringBankPort {
@@ -26,9 +24,6 @@ final class AcquiringBankAdapter implements AcquiringBankPort {
       final var request = AcquiringBankMapper.toAuthorizePaymentRequest(unmaskedCard, amount);
       final var response = acquiringBank.authorizePayment(request);
       return AcquiringBankMapper.toBankAuthorizationResult(response);
-    }, throwable -> {
-      log.error("Error occurred while authorizing payment", throwable);
-      return new Failed();
-    });
+    }, _ -> new Failed());
   }
 }

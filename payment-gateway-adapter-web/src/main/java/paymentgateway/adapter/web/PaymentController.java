@@ -3,7 +3,6 @@ package paymentgateway.adapter.web;
 import jakarta.validation.Valid;
 import java.util.Collections;
 import java.util.UUID;
-import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.internal.constraintvalidators.hv.UUIDValidator;
 import org.hibernate.validator.internal.util.annotation.AnnotationDescriptor;
 import org.springframework.http.HttpStatus;
@@ -27,7 +26,6 @@ import paymentgateway.domain.port.in.ProcessPaymentCommand;
 import paymentgateway.domain.port.in.ProcessPaymentUseCase;
 import paymentgateway.domain.port.in.RetrievePaymentQuery;
 
-@Slf4j
 @RestController
 final class PaymentController {
 
