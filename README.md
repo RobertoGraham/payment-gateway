@@ -177,6 +177,8 @@ autoconfigured by Spring Boot.
 
 ## Improvements
 
+- Require merchants to supply idempotency keys with payment processing requests to prevent duplicate
+  payments in the event of retries.
 - Tweak the retry and circuit breaker policies to match the acquiring bank's real-world behaviour
   and SLAs.
 - Replace the current payment repository adapter with a more robust, production-ready implementation
