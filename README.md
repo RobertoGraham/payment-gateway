@@ -1,14 +1,14 @@
 # payment-gateway
 
 **payment-gateway** is a domain-driven, modular application that enables merchants to accept online
-payments.
+payments through a RESTful API.
 
 [![Build payment-gateway](https://github.com/RobertoGraham/payment-gateway/actions/workflows/build-payment-gateway.yaml/badge.svg)](https://github.com/RobertoGraham/payment-gateway/actions/workflows/build-payment-gateway.yaml)
 
-To get started, you need:
+To get started, you will need:
 
-- [JDK 25](https://bell-sw.com/pages/downloads/#jdk-25-lts) - to compile and run payment-gateway.
 - [Docker](https://www.docker.com/products/docker-desktop) - to start the bank simulator.
+- [JDK 25](https://bell-sw.com/pages/downloads/#jdk-25-lts) - to compile and run payment-gateway.
 
 ## Getting started
 
@@ -23,3 +23,6 @@ Compile and run payment-gateway.
 ```shell
 ./gradlew bootRun
 ```
+
+To visualize and interact with the API's resources, navigate
+to http://localhost:8090/swagger-ui.html from a web browser.
