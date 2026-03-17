@@ -39,6 +39,14 @@ repository) sides of the hexagonal architecture.
 
 ### [payment-gateway-domain](payment-gateway-domain)
 
+This is the domain layer at the centre of payment-gateway that all other modules depend on. It
+requires zero runtime dependencies and is agnostic of any specific technology or framework. It
+contains the:
+
+- Domain model.
+- Driving and driven ports.
+- Domain services.
+
 ### [payment-gateway-adapter-web](payment-gateway-adapter-web)
 
 ### [payment-gateway-adapter-acquiring-bank](payment-gateway-adapter-acquiring-bank)
