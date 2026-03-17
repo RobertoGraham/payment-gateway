@@ -186,7 +186,7 @@ autoconfigured by Spring Boot.
 - Expand the suite of tests to include:
   - Merchant-centric acceptance tests.
   - Performance tests.
-- API security, obviously:
+- Implement API security:
   - RBAC to restrict access to authorized merchants.
   - Rate limiting to prevent abuse and ensure fair usage.
   - DDoS protection to prevent abuse and ensure availability.
