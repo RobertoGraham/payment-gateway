@@ -49,6 +49,66 @@ contains the:
 
 ### [payment-gateway-adapter-web](payment-gateway-adapter-web)
 
+This is the driving adapter RESTful API through which merchants can interact with
+payment-gateway.
+
+#### POST /payments
+
+Connects merchants to the `ProcessPaymentUseCase` driving port, allowing them to process payments.
+
+##### Created (201)
+
+Request:
+
+```http
+POST /payments HTTP/1.1
+Content-Type: application/json
+Host: localhost:8090
+
+{
+  "cardNumber": "4242424242424242",
+  "expiryMonth": 1,
+  "expiryYear": 2030,
+  "currency": "GBP",
+  "amount": 1,
+  "cvv": "123"
+}
+```
+
+Responses:
+
+```http
+HTTP/1.1 201 Created
+Content-Type: application/json
+
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "status": "Authorized",
+  "last4Digits": "4242",
+  "expiryMonth": 1,
+  "expiryYear": 2030,
+  "currency": "GBP"
+}
+```
+
+```http
+HTTP/1.1 201 Created
+Content-Type: application/json
+
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "status": "Declined",
+  "last4Digits": "4242",
+  "expiryMonth": 1,
+  "expiryYear": 2030,
+  "currency": "GBP"
+}
+```
+
+#### GET /payment/{id}
+
+Connects merchants to the `RetrievePaymentQuery` driving port, allowing them to retrieve payments.
+
 ### [payment-gateway-adapter-acquiring-bank](payment-gateway-adapter-acquiring-bank)
 
 ### [payment-gateway-adapter-payment-repository](payment-gateway-adapter-payment-repository)
