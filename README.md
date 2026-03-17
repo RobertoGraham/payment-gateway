@@ -158,7 +158,7 @@ HTTP/1.1 404 Not Found
 ### [payment-gateway-adapter-acquiring-bank](payment-gateway-adapter-acquiring-bank)
 
 The driven adapter that connects the domain layer to the acquiring bank's API by
-implementing the`AcquiringBankPort` driven port. It ensures resilience by applying a combination of
+implementing the `AcquiringBankPort` driven port. It ensures resilience by applying a combination of
 retry and circuit breaker policies to acquiring bank payment authorization requests.
 
 ### [payment-gateway-adapter-payment-repository](payment-gateway-adapter-payment-repository)
