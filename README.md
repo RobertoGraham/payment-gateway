@@ -26,3 +26,8 @@ Compile and run payment-gateway.
 
 To visualize and interact with the API's resources, navigate
 to http://localhost:8090/swagger-ui.html from a web browser.
+
+## Architecture
+
+I have designed payment-gateway to strictly adhere to the principles of domain-driven design and the
+hexagonal architecture pattern.
