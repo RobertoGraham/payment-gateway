@@ -39,9 +39,8 @@ repository) sides of the hexagonal architecture.
 
 ### [payment-gateway-domain](payment-gateway-domain)
 
-This is the domain layer at the centre of payment-gateway that all other modules depend on. It
-requires zero runtime dependencies and is agnostic of any specific technology or framework. It
-contains the:
+The domain layer at the centre of payment-gateway that all other modules depend on. It requires zero
+runtime dependencies and is agnostic of any specific technology or framework. It contains the:
 
 - Domain model.
 - Driving and driven ports.
@@ -49,8 +48,7 @@ contains the:
 
 ### [payment-gateway-adapter-web](payment-gateway-adapter-web)
 
-This is the driving adapter RESTful API through which merchants can interact with
-payment-gateway.
+The driving adapter RESTful API through which merchants can interact with payment-gateway.
 
 #### POST /payments
 
@@ -159,6 +157,36 @@ HTTP/1.1 404 Not Found
 
 ### [payment-gateway-adapter-acquiring-bank](payment-gateway-adapter-acquiring-bank)
 
+The driven adapter that connects the domain layer to the acquiring bank's API by
+implementing the `AcquiringBankPort` driven port. It ensures resilience by applying a combination of
+retry and circuit breaker policies to acquiring bank payment authorization requests.
+
 ### [payment-gateway-adapter-payment-repository](payment-gateway-adapter-payment-repository)
 
+The driven adapter that connects the domain layer to a payment repository by implementing the
+`PaymentRepositoryPort` driven port. It allows the domain layer to persist and retrieve payment
+information without being coupled to any specific database technology. I chose a `ConcurrentHashMap`
+implementation to support safe, concurrent access by multiple threads.
+
 ### [payment-gateway-application](payment-gateway-application)
+
+The composition root of payment-gateway where the domain and adapter modules are composed together
+into a working application. Adapter modules are runtime-only dependencies, as they're effectively
+Spring Boot starters that contain all the necessary configuration to be auto-discovered and
+autoconfigured by Spring Boot.
+
+## Improvements
+
+- Tweak the retry and circuit breaker policies to match the acquiring bank's real-world behaviour
+  and SLAs.
+- Replace the current payment repository adapter with a more robust, production-ready implementation
+  that connects to a real database.
+- Improve the observability of the application by recording and exporting metrics such as
+  authorization rate, decline volume, API response times, etc.
+- Expand the suite of tests to include:
+  - Merchant-centric acceptance tests.
+  - Performance tests.
+- API security, obviously:
+  - RBAC to restrict access to authorized merchants.
+  - Rate limiting to prevent abuse and ensure fair usage.
+  - DDoS protection to prevent abuse and ensure availability.
