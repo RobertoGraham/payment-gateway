@@ -31,7 +31,7 @@ import paymentgateway.domain.port.in.RetrievePaymentQuery;
 @RestController
 final class PaymentController {
 
-  private static final String REJECTED_PAYMENT_DETAIL = "Rejected";
+  private static final String REJECTED = "Rejected";
 
   private final ProcessPaymentUseCase processPaymentUseCase;
   private final RetrievePaymentQuery retrievePaymentQuery;
@@ -49,15 +49,13 @@ final class PaymentController {
   }
 
   @ExceptionHandler(DomainValidationException.class)
-  static ProblemDetail handleDomainValidationException(final DomainValidationException exception) {
-    log.error("Domain validation failed", exception);
-    return ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_CONTENT,
-        REJECTED_PAYMENT_DETAIL);
+  static ProblemDetail handleDomainValidationException() {
+    return ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_CONTENT, REJECTED);
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   static ProblemDetail handleMethodArgumentNotValidException() {
-    return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, REJECTED_PAYMENT_DETAIL);
+    return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, REJECTED);
   }
 
   @ExceptionHandler(AcquiringBankException.class)
