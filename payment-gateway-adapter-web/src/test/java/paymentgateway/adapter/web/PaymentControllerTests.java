@@ -171,7 +171,8 @@ final class PaymentControllerTests {
                "last4Digits": "1234",
                "expiryMonth": 1,
                "expiryYear": 2026,
-               "currency": "GBP"
+               "currency": "GBP",
+               "amount": 1
              }""".formatted(expectedStatus));
   }
 
@@ -207,7 +208,8 @@ final class PaymentControllerTests {
                "last4Digits": "1234",
                "expiryMonth": 1,
                "expiryYear": 2026,
-               "currency": "GBP"
+               "currency": "GBP",
+               "amount": 1
              }""");
   }
 
