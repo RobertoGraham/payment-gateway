@@ -56,8 +56,6 @@ payment-gateway.
 
 Connects merchants to the `ProcessPaymentUseCase` driving port, allowing them to process payments.
 
-##### Created (201)
-
 Request:
 
 ```http
@@ -87,21 +85,43 @@ Content-Type: application/json
   "last4Digits": "4242",
   "expiryMonth": 1,
   "expiryYear": 2030,
-  "currency": "GBP"
+  "currency": "GBP",
+  "amount": 1
 }
 ```
 
 ```http
-HTTP/1.1 201 Created
-Content-Type: application/json
+HTTP/1.1 400 Bad Request
+Content-Type: application/problem+json
 
 {
-  "id": "00000000-0000-0000-0000-000000000000",
-  "status": "Declined",
-  "last4Digits": "4242",
-  "expiryMonth": 1,
-  "expiryYear": 2030,
-  "currency": "GBP"
+  "detail": "Rejected",
+  "instance": "/payments",
+  "status": 400,
+  "title": "Bad Request"
+}
+```
+
+```http
+HTTP/1.1 422 Unprocessable Content
+Content-Type: application/problem+json
+
+{
+  "detail": "Rejected",
+  "instance": "/payments",
+  "status": 422,
+  "title": "Unprocessable Content"
+}
+```
+
+```http
+HTTP/1.1 502 Bad Gateway
+Content-Type: application/problem+json
+
+{
+  "instance": "/payments",
+  "status": 502,
+  "title": "Bad Gateway"
 }
 ```
 

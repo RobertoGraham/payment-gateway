@@ -70,6 +70,7 @@ final class PaymentController {
         .expiryMonth(payment.card().expiry().getMonthValue())
         .expiryYear(payment.card().expiry().getYear())
         .currency(payment.amount().currency().getCurrencyCode())
+        .amount(payment.amount().value())
         .build();
   }
 
